@@ -1,14 +1,14 @@
 // IMPORTING DEPENDENCIES
 const express = require("express");
 const bodyParser = require("body-parser");
-const { readCSV } = require("./cron_jobs/readCSV");
+//const { readCSV } = require("./cron_jobs/readCSV");
 const { writeCSV } = require("./cron_jobs/writeCSV");
 const cron = require("node-cron");
 
 const scheduledJobs = function () {
   cron.schedule("45 23 28-31 * *", function () {
     console.log("Scheduling Cron Jobs Every Last Day of the Month");
-    readCSV();
+    //readCSV();
     writeCSV();
   });
 };
@@ -26,9 +26,9 @@ app.use(bodyParser.json());
 // DATA MODEL
 const { Sequelize, sequelize } = require("./database");
 
-const User = require("./models/business_model")(sequelize, Sequelize);
+const Order = require("./models/order_model")(sequelize, Sequelize);
 
-app.use(User);
+app.use(Order);
 
 scheduledJobs();
 

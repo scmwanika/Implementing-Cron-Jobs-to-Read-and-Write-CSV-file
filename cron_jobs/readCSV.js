@@ -3,19 +3,19 @@ const fs = require("fs");
 const Pool = require("pg").Pool;
 const fastcsv = require("fast-csv");
 
-const { HOST, USER, PASSWORD, USER_PORT } = process.env;
+const { DATABASE_NAME, USER, PASSWORD, HOST, USER_PORT } = process.env;
 
 // Create a connection to the database
 const pool = new Pool({
-  host: `${HOST}`,
+  database: `${DATABASE_NAME}`,
   user: `${USER}`,
-  database: `${USER}`,
   password: `${PASSWORD}`,
+  host: `${HOST}`,
   port: `${USER_PORT}`,
 });
 
 const rs = fs.createReadStream(
-  "C:/Users/DELL/OneDrive/Desktop/Jokisereko/business.csv"
+  "C:/Users/DELL/OneDrive/Desktop/Jokisereko/orders.csv"
 );
 
 const readCSV = function () {
@@ -35,7 +35,7 @@ const readCSV = function () {
 
         try {
           // upload business to PostgreSQL online service
-          const insert = `INSERT INTO businesses VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`;
+          const insert = `INSERT INTO orders VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`;
 
           csvData.forEach((row) => {
             client.query(insert, row, (err, res) => {
